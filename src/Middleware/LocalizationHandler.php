@@ -115,7 +115,7 @@ class LocalizationHandler
             return;
         }
 
-        return new RedirectResponse(empty($url) ? '/' : $url, $code);
+        return new RedirectResponse(empty($url) ? '/' : $url, $code, ['Pragma' => 'no-cache', 'Expires' => 0,'Cache-Control' => 'no-store, no-cache, must-revalidate']);
 
     }
 
