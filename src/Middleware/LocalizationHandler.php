@@ -115,7 +115,7 @@ class LocalizationHandler
             return;
         }
 
-        return new RedirectResponse(empty($url) ? '/' : $url, $code, ['Vary' => 'Accept-Language']);
+        return new RedirectResponse(empty($url) ? '/' : $url, $code);
 
     }
 
