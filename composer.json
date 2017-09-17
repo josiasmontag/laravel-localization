@@ -4,7 +4,7 @@
     "keywords": ["localization", "language", "laravel", "php"],
     "homepage": "https://github.com/josiasmontag/laravel-localization",
     "license": "MIT",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "Josias Montag",
