@@ -10,7 +10,7 @@
 
 ## Introduction
 
-The Laravel Localization package is built for Laravel 5.4 and provides: 
+The Laravel Localization package is built for Laravel 5.4/5.5 and provides: 
 
 - [x] Localized routes with language URL prefixes.
 - [x] Middleware to detect user language based on HTTP header and session. 
@@ -31,19 +31,18 @@ To get started, use Composer to add the package to your project's dependencies:
     composer require josiasmontag/laravel-localization
 
 
-Register the Service Provider in your `config/app.php` configuration file:
+In Laravel 5.5 the service provider will automatically get registered. In older versions of the framework just register the Service Provider and the the `Localization` Facade in your `config/app.php` configuration file:
 
 ```php
-'providers' => [
+    'providers' => [
+    
+        // Other service providers...
+    
+        Lunaweb\Localization\LocalizationServiceProvider::class,
+    ]
 
-    // Other service providers...
+    // ...
 
-    Lunaweb\Localization\LocalizationServiceProvider::class,
-],
-```
-
-Register the `Localization` Facade:
-```php
     'aliases' => [
         
         // Other Facades
