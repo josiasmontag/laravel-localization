@@ -26,6 +26,7 @@ trait EnvironmentSetUp
         $app['config']->set('app.debug', true);
 
         $app['config']->set('localization.locales', [
+            'de' => ['domain' => 'localhost.de', 'name' => 'German', 'script' => 'Latn', 'native' => 'Deutsch', 'regional' => 'de_DE'],
             'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
             'th' => ['name' => 'Thai', 'script' => 'Thai', 'native' => 'ไทย', 'regional' => 'th_TH'],
             'fr' => ['name' => 'French', 'script' => 'Latn', 'native' => 'français', 'regional' => 'fr_FR'],

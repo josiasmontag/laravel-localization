@@ -13,6 +13,7 @@
 The Laravel Localization package is built for Laravel 5.4/5.5 and provides: 
 
 - [x] Localized routes with language URL prefixes.
+- [x] Domain based localized routes.
 - [x] Middleware to detect user language based on HTTP header and session. 
 - [x] Redirect the user to the localized version.
 - [x] Possibility to hide the language URL prefix for the default language.
@@ -64,36 +65,6 @@ Add the `HandleLocalization` Middleware to the `web` group in `App/Http/Kernel.p
     ];
 ```
 
-
-## Usage
-
-#### Add Localized Routes
-
-To add localized routes with language prefixes, edit your `routes/web.php` and use `localizedRoutesGroup`:
-
-```php
-
-Localization::localizedRoutesGroup(function() {
-    Route::get('/', 'HomeController@uploadDocuments')->name('index');
-    Route::get('/register', 'RegisterController@showRegisterForm')->name('register');
-});
-```
-
-Under the hood this will create the following routes for you:
-
-Route | Route Name | Language
---- | --- | ---
-`/` | `index` | English (Default Language)
-`/de` | `de.index` | German
-`/fr` | `fr.index` | French
-`/register` | `register` | English (Default Language)
-`/de/register` | `de.register` | German
-`/fr/register` | `fr.register` | French
-
-#### Localized route()
-
-`route()` will automatically use the localized version, if there is any available. Using the example from above, `route('index')` resolves to the `index`, `de.index` or `fr.index` route depending on the user's language.
-
 ## Configuration
 
 To publish the config file to `config/localization.php`:
@@ -107,8 +78,8 @@ return [
     
     // Add any language you want to support
     'locales' => [
-        'en'          => ['name' => 'English',                'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
-        'de'          => ['name' => 'German',                 'script' => 'Latn', 'native' => 'Deutsch', 'regional' => 'de_DE'],
+        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
+        'de' => ['name' => 'German', 'script' => 'Latn', 'native' => 'Deutsch', 'regional' => 'de_DE'],
     ],
 
     // The default locale is configured in config/app.php (locale)
@@ -136,6 +107,57 @@ return [
 ];
 
 ```
+
+## Usage
+
+#### Add Localized Routes
+
+To add localized routes with language prefixes, edit your `routes/web.php` and use `localizedRoutesGroup`:
+
+```php
+
+Localization::localizedRoutesGroup(function() {
+    Route::get('/', 'HomeController@uploadDocuments')->name('index');
+    Route::get('/register', 'RegisterController@showRegisterForm')->name('register');
+});
+```
+
+Under the hood this will create the following routes for you:
+
+Route | Route Name | Language
+--- | --- | ---
+`/` | `index` | English (Default Language)
+`/de` | `de.index` | German
+`/fr` | `fr.index` | French
+`/register` | `register` | English (Default Language)
+`/de/register` | `de.register` | German
+`/fr/register` | `fr.register` | French
+
+#### Domain Based Localized Routes
+
+To add domain-based localized routes, add the localized domains to your `config/localization.php` configuration:
+
+```php
+'locales' => [
+   'en' => ['domain'=> 'domain.com', 'name' => 'English', 'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
+   'de' => ['domain'=> 'domain.de', 'name' => 'German', 'script' => 'Latn', 'native' => 'Deutsch', 'regional' => 'de_DE'],
+],
+```
+
+The example from above will then create the following routes:
+
+Route | Route Name | Language
+--- | --- | ---
+`domain.com` | `index` | English (Default Language)
+`domain.de` | `de.index` | German
+`domain.com/register` | `register` | English (Default Language)
+`domain.de/register` | `de.register` | German
+
+#### Localized route()
+
+`route()` will automatically use the localized version, if there is any available. Using the example from above, `route('index')` resolves to the `index`, `de.index` or `fr.index` route depending on the user's language.
+
+
 
 ## Helpers
 

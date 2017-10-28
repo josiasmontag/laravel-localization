@@ -108,10 +108,15 @@ class Localization
         foreach ($this->getLocales() as $code => $locale) {
 
             $attributes = [
-                'prefix' =>  $this->hideDefaultLocaleInUrl && $code === $this->defaultLocale  ? null : $code,
                 'as' =>  $code === $this->defaultLocale  ? null : $code . '.',
                 'localization' => $code
             ];
+
+            if(isset($locale['domain'])) {
+                $attributes['domain'] = $locale['domain'];
+            } else {
+                $attributes['prefix'] = $this->hideDefaultLocaleInUrl && $code === $this->defaultLocale  ? null : $code;
+            }
 
             Route::group($attributes, $routes);
 
