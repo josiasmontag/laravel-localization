@@ -109,9 +109,9 @@ class LocalizationHandler
             return;
         }
 
-        $url = app('localization')->getLocaleUrl($locale);
+        $url = strtok(app('localization')->getLocaleUrl($locale), '?');
 
-        if($url == request()->fullUrl()) {
+        if($url == request()->url()) {
             return;
         }
 
