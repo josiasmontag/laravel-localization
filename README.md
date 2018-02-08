@@ -10,7 +10,7 @@
 
 ## Introduction
 
-The Laravel Localization package is built for Laravel 5.4/5.5 and provides: 
+The Laravel Localization package is built for Laravel 5.4/5.5/5.6 and provides: 
 
 - [x] Localized routes with language URL prefixes.
 - [x] Domain based localized routes.
