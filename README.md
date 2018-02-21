@@ -10,7 +10,7 @@
 
 ## Introduction
 
-The Laravel Localization package is built for Laravel 5.4/5.5/5.6 and provides: 
+The Laravel Localization package is built for Laravel 5.5/5.6 and provides: 
 
 - [x] Localized routes with language URL prefixes.
 - [x] Domain based localized routes.
@@ -110,9 +110,9 @@ return [
 
 ## Usage
 
-#### Add Localized Routes
+#### Prefix Based Localized Routes
 
-To add localized routes with language prefixes, edit your `routes/web.php` and use `localizedRoutesGroup`:
+To add localized routes with language prefixes, edit your `routes/web.php` and use `localizedRoutesGroup` helper:
 
 ```php
 
@@ -139,8 +139,9 @@ To add domain-based localized routes, add the localized domains to your `config/
 
 ```php
 'locales' => [
-   'en' => ['domain'=> 'domain.com', 'name' => 'English', 'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
-   'de' => ['domain'=> 'domain.de', 'name' => 'German', 'script' => 'Latn', 'native' => 'Deutsch', 'regional' => 'de_DE'],
+   'en' => ['domain'=> 'domain.com', 'name' => 'English'],
+   'de' => ['domain'=> 'domain.de', 'name' => 'German'],
+   'fr' => ['domain'=> 'domain.fr', 'name' => 'French'],
 ],
 ```
 
@@ -150,8 +151,28 @@ Route | Route Name | Language
 --- | --- | ---
 `domain.com` | `index` | English (Default Language)
 `domain.de` | `de.index` | German
+`domain.fr` | `fr.index` | French
 `domain.com/register` | `register` | English (Default Language)
 `domain.de/register` | `de.register` | German
+`domain.fr/register` | `fr.register` | French
+
+
+#### Localization Specific Routes
+
+You can manually create language specific routes using the `localization()` macro.  
+
+```php
+Route::get('/contact', 'ContactController@showContactForm')
+    ->localization('en')
+    ->name('contact');
+    
+Route::get('/kontakt', 'ContactController@showContactForm')
+    ->localization('de')
+    ->name('de.contact');
+
+```
+
+
 
 #### Localized route()
 
@@ -166,11 +187,21 @@ Route | Route Name | Language
 ```php
 Localization::isLocalizedRoute()
 ```
+or...
+```php
+Route::current()->getLocalization() === null
+```
+
+#### Get the localization of the current route
+
+```php
+Route::current()->getLocalization()
+```
 
 #### Get the URL to a different language version of the current route
 
 ```php
-Localization::getLocaleUrl($lang)
+Localization::getLocaleUrl($localeCode)
 ```
 
 #### Hreflang Meta Tags

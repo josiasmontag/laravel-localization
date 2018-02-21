@@ -60,7 +60,7 @@ class Localization
      */
     public function isLocalizedRoute()
     {
-        return $this->request->route() != null && isset($this->request->route()->getAction()['localization']);
+        return $this->request->route() !== null && $this->request->route()->getLocalization() !== null;
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace Lunaweb\Localization;
 
+use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -41,7 +42,7 @@ class LocalizationServiceProvider extends ServiceProvider
         );
 
 
-        $this->app->singleton('url', function($app) {
+        $this->app->singleton('url', function ($app) {
 
             // see: Illuminate\Routing\RoutingServiceProvider
 
@@ -69,14 +70,40 @@ class LocalizationServiceProvider extends ServiceProvider
         });
 
 
-        $this->app->singleton('localization',function ($app) {
+        $this->app->singleton('localization', function ($app) {
             return new Localization($app->make('request'));
         });
 
+        $this->registerRouteMacro();
     }
 
 
+    /*
+     * Registers the Route localization() / getLocalization() Macros
+     */
+    public function registerRouteMacro()
+    {
 
+        Route::macro('getLocalization', function () {
+
+            return $this->action['localization'] ?? null;
+
+        });
+
+
+        Route::macro('localization', function ($localization) {
+
+            if (is_null($localization)) {
+                return $this->getLocalization();
+            }
+
+            $this->action['localization'] = $localization;
+
+            return $this;
+
+        });
+
+    }
 
 
 }

@@ -1,6 +1,6 @@
 <?php
-namespace Lunaweb\Localization\Tests;
 
+namespace Lunaweb\Localization\Tests;
 
 
 use Mockery as m;
@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase;
 
 
-
 class LocalizationTest extends TestCase
 {
 
     use EnvironmentSetUp;
-
 
 
     public function tearDown()
@@ -26,8 +24,6 @@ class LocalizationTest extends TestCase
         parent::setUp();
 
     }
-
-
 
 
     public function testRouteCreation()
@@ -71,6 +67,17 @@ class LocalizationTest extends TestCase
     }
 
 
+    public function testRouteMacro()
+    {
+
+        $this->createRoutes();
+
+        $this->assertNull(Route::getRoutes()->getByName('nonLocalized')->getLocalization());
+        $this->assertEquals('en', Route::getRoutes()->getByName('index')->getLocalization());
+        $this->assertEquals('th', Route::getRoutes()->getByName('th.index')->getLocalization());
+
+    }
+
 
     public function testRouteCreationWihtoutHidingDefaultLocale()
     {
@@ -84,7 +91,6 @@ class LocalizationTest extends TestCase
         $this->assertTrue(Route::has('de.index'));
         $this->assertTrue(Route::has('index'));
         $this->assertFalse(Route::has('en.index'));
-
 
 
         $response = $this->get('/');
@@ -170,13 +176,27 @@ class LocalizationTest extends TestCase
         $this->assertEquals('http://localhost.de', app('localization')->getLocaleUrl('de'));
 
 
-
         $this->get('/fr');
         $this->assertEquals('http://localhost/fr', app('localization')->getLocaleUrl('fr'));
         $this->assertEquals('http://localhost/th', app('localization')->getLocaleUrl('th'));
         $this->assertEquals('http://localhost', app('localization')->getLocaleUrl('en'));
         $this->assertEquals('http://localhost.de', app('localization')->getLocaleUrl('de'));
 
+
+    }
+
+
+    public function testGetLocaleUrlWithManuallyCreatedRoutes()
+    {
+        $this->createRoutes();
+
+        $response = $this->get('/contact');
+        $response->assertSuccessful();
+        $this->assertEquals('http://localhost.de/kontakt', app('localization')->getLocaleUrl('de'));
+
+        $response = $this->get('http://localhost.de/kontakt');
+        $response->assertSuccessful();
+        $this->assertEquals('http://localhost/contact', app('localization')->getLocaleUrl('en'));
 
     }
 
