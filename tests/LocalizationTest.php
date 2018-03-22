@@ -201,4 +201,24 @@ class LocalizationTest extends TestCase
     }
 
 
+    public function testGetLocaleRoute()
+    {
+
+        $this->createRoutes();
+
+        $this->get('/');
+        $this->assertEquals('fr.index', app('localization')->getLocaleRoute('fr'));
+        $this->assertEquals('th.index', app('localization')->getLocaleRoute('th'));
+        $this->assertEquals('index', app('localization')->getLocaleRoute('en'));
+        $this->assertEquals('de.index', app('localization')->getLocaleRoute('de'));
+
+
+        $this->get('/nonlocalized?id=3');
+        $this->assertEquals(null, app('localization')->getLocaleRoute('fr'));
+        $this->assertEquals(null, app('localization')->getLocaleRoute('th'));
+
+
+    }
+
+
 }

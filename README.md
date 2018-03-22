@@ -174,13 +174,12 @@ Route::get('/kontakt', 'ContactController@showContactForm')
 
 
 
+## Helpers
+
 #### Localized route()
 
 `route()` will automatically use the localized version, if there is any available. Using the example from above, `route('index')` resolves to the `index`, `de.index` or `fr.index` route depending on the user's language.
 
-
-
-## Helpers
 
 #### Check if the current route is localized
 
@@ -202,6 +201,12 @@ Route::current()->getLocalization()
 
 ```php
 Localization::getLocaleUrl($localeCode)
+```
+
+#### Get the route name to a different language version of the current route
+
+```php
+Localization::getLocaleRoute($localeCode)
 ```
 
 #### Hreflang Meta Tags

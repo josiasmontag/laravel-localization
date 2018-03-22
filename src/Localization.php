@@ -27,7 +27,7 @@ class Localization
         $this->request = $request;
         $this->defaultLocale = config('app.locale', 'en');
         $this->hideDefaultLocaleInUrl = config('localization.hide_default_locale_in_url', true);
-        $this->queryLocaleParameter =  config('localization.locale_query_parameter', 'hl');
+        $this->queryLocaleParameter = config('localization.locale_query_parameter', 'hl');
     }
 
 
@@ -38,13 +38,14 @@ class Localization
      */
     public function getLocales()
     {
-        return  config('localization.locales', []);
+        return config('localization.locales', []);
     }
 
     /**
      * Check if the locale code is valid.
      *
      * @param $locale
+     *
      * @return bool
      */
     public function isValidLocale($locale)
@@ -65,9 +66,39 @@ class Localization
 
 
     /**
+     * Get the route name to a different language version of the current route.
+     * Returns null if it does not exist
+     *
+     * @param $locale
+     *
+     * @return string
+     */
+    public function getLocaleRoute($locale)
+    {
+
+        if (!$this->isValidLocale($locale)) {
+            return null;
+        }
+
+        if ($this->isLocalizedRoute()) {
+            $prefix = $this->hideDefaultLocaleInUrl && $locale === $this->defaultLocale ? '' : $locale . '.';
+            $currentLocale = $this->request->route()->getAction()['localization'];
+            $routeName = $this->request->route()->getName();
+            $routeName = $prefix . preg_replace("/^" . $currentLocale . "\./", "", $routeName);
+
+            return Route::has($routeName) ? $routeName : null;
+        }
+
+        return null;
+
+    }
+
+
+    /**
      * Get the absolute URL to a different language version of the current route.
      *
      * @param $locale
+     *
      * @return string
      */
     public function getLocaleUrl($locale)
@@ -81,16 +112,14 @@ class Localization
             return $this->request->fullUrl();
         }
 
-        if($this->isLocalizedRoute()) {
-            $prefix =  $this->hideDefaultLocaleInUrl && $locale === $this->defaultLocale  ? '' : $locale . '.';
-            $currentLocale = $this->request->route()->getAction()['localization'];
-            $routeName = $this->request->route()->getName();
-            $routeName = $prefix . preg_replace("/^".$currentLocale."\./", "", $routeName);
-
-            return app('url')->route($routeName , array_merge($this->request->route()->parameters(),$query), true, true);
-        } else if($this->queryLocaleParameter) {
-            $query[$this->queryLocaleParameter] =  $locale;
-            return $this->request->fullUrlWithQuery($query);
+        if ($routeName = $this->getLocaleRoute($locale)) {
+            return app('url')->route($routeName, array_merge($this->request->route()->parameters(), $query), true,
+                true);
+        } else {
+            if ($this->queryLocaleParameter) {
+                $query[$this->queryLocaleParameter] = $locale;
+                return $this->request->fullUrlWithQuery($query);
+            }
         }
 
         return $this->request->fullUrl();
@@ -103,19 +132,20 @@ class Localization
      *
      * @param $routes
      */
-    public function localizedRoutesGroup($routes) {
+    public function localizedRoutesGroup($routes)
+    {
 
         foreach ($this->getLocales() as $code => $locale) {
 
             $attributes = [
-                'as' =>  $code === $this->defaultLocale  ? null : $code . '.',
+                'as'           => $code === $this->defaultLocale ? null : $code . '.',
                 'localization' => $code
             ];
 
-            if(isset($locale['domain'])) {
+            if (isset($locale['domain'])) {
                 $attributes['domain'] = $locale['domain'];
             } else {
-                $attributes['prefix'] = $this->hideDefaultLocaleInUrl && $code === $this->defaultLocale  ? null : $code;
+                $attributes['prefix'] = $this->hideDefaultLocaleInUrl && $code === $this->defaultLocale ? null : $code;
             }
 
             Route::group($attributes, $routes);
@@ -124,7 +154,6 @@ class Localization
 
 
     }
-
 
 
 }
