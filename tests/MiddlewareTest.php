@@ -64,6 +64,10 @@ class MiddlewareTest extends TestCase
         $this->createRoutes();
 
 
+
+
+
+
         $response = $this->get('/middleware?hl=th');
         $response->assertRedirect('/th/middleware');
         $this->assertEquals('th', app()->getLocale());
@@ -86,6 +90,13 @@ class MiddlewareTest extends TestCase
         $response = $this->get('/fr/middleware?hl=de');
         $response->assertRedirect('http://localhost.de/middleware');
         $this->assertEquals('de', app()->getLocale());
+
+
+        $this->flushSession();
+
+        $response = $this->get('/th/middleware?hl=th');
+        $response->assertRedirect('/th/middleware');
+        $this->assertEquals('th', app()->getLocale());
 
 
     }

@@ -104,6 +104,8 @@ class LocalizationHandler
      */
     private function localizationRedirect($locale, $code = 302) {
         $enableRedirect = config('localization.redirect_to_localized_route', true);
+        $localQueryParamter = config('localization.locale_query_parameter', 'hl');
+
         if (!app('localization')->isLocalizedRoute()
             || !$enableRedirect) {
             return;
@@ -111,7 +113,7 @@ class LocalizationHandler
 
         $url = strtok(app('localization')->getLocaleUrl($locale), '?');
 
-        if($url == request()->url()) {
+        if($url == request()->url() && !request()->query($localQueryParamter)) {
             return;
         }
 
