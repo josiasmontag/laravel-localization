@@ -223,7 +223,7 @@ Localization::getLocaleRoute($localeCode)
 <ul>
     @foreach(Localization::getLocales() as $localeCode => $properties)
         <li>
-            <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ request()->fullUrlWithQuery([ config('localization.locale_query_parameter') => $localeCode]) }}">
+            <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ Localization::getLocaleUrl($localeCode, true) }}">
                  {{ $properties['native'] }} </a>
         </li>
     @endforeach

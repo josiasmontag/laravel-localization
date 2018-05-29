@@ -97,16 +97,21 @@ class Localization
     /**
      * Get the absolute URL to a different language version of the current route.
      *
-     * @param $locale
+     * @param      $locale
+     *
+     * @param bool $forceLanguageChange
      *
      * @return string
      */
-    public function getLocaleUrl($locale)
+    public function getLocaleUrl($locale, $forceLanguageChange = false)
     {
 
         // Remove query hl parameter, if any.
         $query = $this->request->except([$this->queryLocaleParameter]);
 
+        if($forceLanguageChange) {
+            $query[$this->queryLocaleParameter] = $locale;
+        }
 
         if (!$this->isValidLocale($locale)) {
             return $this->request->fullUrl();

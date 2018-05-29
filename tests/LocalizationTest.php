@@ -162,6 +162,26 @@ class LocalizationTest extends TestCase
     }
 
 
+    public function testGetLocaleUrlForceLanguageChange()
+    {
+
+
+        $this->createRoutes();
+
+        $this->get('/');
+        $this->assertEquals('http://localhost.de?hl=de', app('localization')->getLocaleUrl('de', true));
+
+
+
+        $this->get('/parm/123?id=2');
+        $this->assertEquals('http://localhost.de/parm/123?id=2&hl=de', app('localization')->getLocaleUrl('de', true));
+
+
+        $this->get('/nonlocalized?id=3');
+        $this->assertEquals('http://localhost/nonlocalized?id=3&hl=fr', app('localization')->getLocaleUrl('fr', true));
+
+    }
+
     public function testGetLocaleUrlWithNonDefaultLocale()
     {
         $this->createRoutes();
