@@ -53,10 +53,21 @@ class LocalizationServiceProvider extends ServiceProvider
             // and all the registered routes will be available to the generator.
             $app->instance('routes', $routes);
 
-            $url = new LocalizedUrlGenerator($routes, $app->make('request'));
+            $url = new LocalizedUrlGenerator(
+                $routes, $app->rebinding(
+                'request', $this->requestRebinder()
+            )
+            );
 
+            // Next we will set a few service resolvers on the URL generator so it can
+            // get the information it needs to function. This just provides some of
+            // the convenience features to this URL generator like "signed" URLs.
             $url->setSessionResolver(function () {
                 return $this->app['session'];
+            });
+
+            $url->setKeyResolver(function () {
+                return $this->app->make('config')->get('app.key');
             });
 
             // If the route collection is "rebound", for example, when the routes stay
