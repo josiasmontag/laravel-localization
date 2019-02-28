@@ -205,6 +205,32 @@ class LocalizationTest extends TestCase
 
     }
 
+    public function testGetLocaleUrlWithKeepingDefaultLocaleInUrl()
+    {
+        config(['localization.hide_default_locale_in_url' => false]);
+
+        $this->createRoutes();
+
+
+        app()->setLocale('fr');
+
+
+        $this->get('/en');
+        $this->assertEquals('http://localhost/fr', app('localization')->getLocaleUrl('fr'));
+        $this->assertEquals('http://localhost/th', app('localization')->getLocaleUrl('th'));
+        $this->assertEquals('http://localhost/en', app('localization')->getLocaleUrl('en'));
+        $this->assertEquals('http://localhost.de', app('localization')->getLocaleUrl('de'));
+
+
+        $this->get('/fr');
+        $this->assertEquals('http://localhost/fr', app('localization')->getLocaleUrl('fr'));
+        $this->assertEquals('http://localhost/th', app('localization')->getLocaleUrl('th'));
+        $this->assertEquals('http://localhost/en', app('localization')->getLocaleUrl('en'));
+        $this->assertEquals('http://localhost.de', app('localization')->getLocaleUrl('de'));
+
+
+    }
+
 
     public function testGetLocaleUrlWithManuallyCreatedRoutes()
     {

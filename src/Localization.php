@@ -81,7 +81,7 @@ class Localization
         }
 
         if ($this->isLocalizedRoute()) {
-            $prefix = $this->hideDefaultLocaleInUrl && $locale === $this->defaultLocale ? '' : $locale . '.';
+            $prefix = $locale === $this->defaultLocale ? '' : $locale . '.';
             $currentLocale = $this->request->route()->getAction()['localization'];
             $routeName = $this->request->route()->getName();
             $routeName = $prefix . preg_replace("/^" . $currentLocale . "\./", "", $routeName);
