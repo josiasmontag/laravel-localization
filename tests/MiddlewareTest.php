@@ -16,12 +16,12 @@ class MiddlewareTest extends TestCase
 
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

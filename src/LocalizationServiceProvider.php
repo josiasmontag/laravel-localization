@@ -53,7 +53,7 @@ class LocalizationServiceProvider extends ServiceProvider
             // and all the registered routes will be available to the generator.
             $app->instance('routes', $routes);
 
-            $url = new LocalizedUrlGenerator($routes, $app->make('request'));
+            $url = new LocalizedUrlGenerator($routes, $app->make('request'), $app['config']['app.asset_url']);
 
             // Next we will set a few service resolvers on the URL generator so it can
             // get the information it needs to function. This just provides some of

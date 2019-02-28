@@ -14,12 +14,12 @@ class LocalizationTest extends TestCase
     use EnvironmentSetUp;
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
