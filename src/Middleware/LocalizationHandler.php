@@ -113,7 +113,7 @@ class LocalizationHandler
 
         $url = app('localization')->getLocaleUrl($locale);
 
-        if($url == request()->url() && !request()->query($localQueryParamter)) {
+        if(strtok($url, '?') == request()->url() && !request()->query($localQueryParamter)) {
             return;
         }
 
