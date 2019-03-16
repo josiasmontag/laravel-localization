@@ -111,7 +111,7 @@ class LocalizationHandler
             return;
         }
 
-        $url = strtok(app('localization')->getLocaleUrl($locale), '?');
+        $url = app('localization')->getLocaleUrl($locale);
 
         if($url == request()->url() && !request()->query($localQueryParamter)) {
             return;
