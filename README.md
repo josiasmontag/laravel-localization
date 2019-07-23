@@ -32,27 +32,6 @@ To get started, use Composer to add the package to your project's dependencies:
     composer require josiasmontag/laravel-localization
 
 
-In Laravel 5.5 the service provider will automatically get registered. In older versions of the framework just register the Service Provider and the the `Localization` Facade in your `config/app.php` configuration file:
-
-```php
-    'providers' => [
-    
-        // Other service providers...
-    
-        Lunaweb\Localization\LocalizationServiceProvider::class,
-    ]
-
-    // ...
-
-    'aliases' => [
-        
-        // Other Facades
-        
-        'Localization' => \Lunaweb\Localization\Facades\Localization::class,
-
-    ],
-```
-
 Add the `HandleLocalization` Middleware to the `web` group in `App/Http/Kernel.php`:
 ```php
     protected $middlewareGroups = [
