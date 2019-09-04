@@ -1,19 +1,17 @@
 <?php
+
 namespace Lunaweb\Localization\Tests;
 
 
-
 use Mockery as m;
-use Illuminate\Support\Facades\Route;
-use  Illuminate\Foundation\Testing\TestCase;
-use Orchestra\Testbench\Traits\CreatesApplication;
+use Illuminate\Foundation\Testing\TestCase;
+use Orchestra\Testbench\Concerns\CreatesApplication;
 
 
 class MiddlewareTest extends TestCase
 {
 
     use CreatesApplication, EnvironmentSetUp;
-
 
 
     public function tearDown(): void
@@ -26,8 +24,6 @@ class MiddlewareTest extends TestCase
         parent::setUp();
 
     }
-
-
 
 
     public function testMiddleware()
@@ -62,10 +58,6 @@ class MiddlewareTest extends TestCase
 
 
         $this->createRoutes();
-
-
-
-
 
 
         $response = $this->get('/middleware?hl=th');
@@ -129,7 +121,8 @@ class MiddlewareTest extends TestCase
     }
 
 
-    public function testMiddlewareLanguageHeaderDetection() {
+    public function testMiddlewareLanguageHeaderDetection()
+    {
 
         $this->createRoutes();
 
@@ -160,11 +153,7 @@ class MiddlewareTest extends TestCase
         $this->assertEquals('de', app()->getLocale());
 
 
-
-
     }
-
-
 
 
 }
