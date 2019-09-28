@@ -4,8 +4,8 @@ return [
 
     // Add any language you want to support
     'locales' => [
-        'en' => ['name' => 'English', 'script' => 'Latn', 'native' => 'English', 'regional' => 'en_GB'],
-        'de' => ['name' => 'German', 'script' => 'Latn', 'native' => 'Deutsch', 'regional' => 'de_DE'],
+        'en' => ['name' => 'English'],
+        'de' => ['name' => 'German'],
     ],
 
     // Default locale will not be shown in the url.
