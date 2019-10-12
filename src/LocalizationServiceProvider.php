@@ -66,6 +66,19 @@ class LocalizationServiceProvider extends ServiceProvider
     }
 
 
+    /**
+     * Get the URL generator request rebinder.
+     *
+     * @return \Closure
+     */
+    protected function requestRebinder()
+    {
+        return function ($app, $request) {
+            $app['url']->setRequest($request);
+        };
+    }
+
+
     /*
      * Registers the Route localization() / getLocalization() Macros
      */
