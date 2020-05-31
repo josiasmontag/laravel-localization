@@ -11,8 +11,9 @@ class LocalizationHandler
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -20,7 +21,7 @@ class LocalizationHandler
 
         $localQueryParamter = config('localization.locale_query_parameter', 'hl');
 
-        $enableSession = config('localization.detect_via_session', true);
+        $enableCookie = config('localization.remember_via_cookie', true);
         $enableHttpHeader = config('localization.detect_via_http_header', true);
 
 
@@ -34,17 +35,17 @@ class LocalizationHandler
 
             $redirect = $this->localizationRedirect($locale, 301);
 
-        } elseif ($enableSession
-            && session()->has('locale') && app('localization')->isValidLocale(session()->get('locale'))) {
+        } elseif ($enableCookie
+            && $request->hasCookie('locale') && app('localization')->isValidLocale($request->cookie('locale'))) {
 
-            // 2. Priority: Locale via session
+            // 2. Priority: Locale via cookie
 
-            $locale = session()->get('locale');
+            $locale = $request->cookie('locale');
             $this->setLocale($locale);
 
             $redirect = $this->localizationRedirect($locale);
 
-        } elseif($enableHttpHeader
+        } elseif ($enableHttpHeader
             && $request->header('Accept-Language')
             && $locale = $request->getPreferredLanguage(array_keys(app('localization')->getLocales()))) {
 
@@ -64,45 +65,45 @@ class LocalizationHandler
         }
 
 
-
-        if($redirect) {
-            return $redirect;
+        if ($redirect) {
+            $response = $redirect;
+        } else {
+            $response = $next($request);
         }
 
-        return $next($request);
+        if($enableCookie && $locale) {
+            $response->cookie('locale', $locale, config('localization.cookie_expires'));
+        }
+
+        return $response;
     }
 
 
     /**
      * Set the locale and remember it via session.
      *
-     * @param $locale
+     * @param      $locale
      * @param bool $redirect
      */
     private function setLocale($locale)
     {
-        $enableSession = config('localization.detect_via_session', true);
-
-        if(!app('localization')->isValidLocale($locale)) {
+        if (!app('localization')->isValidLocale($locale)) {
             return;
         }
         app()->setLocale($locale);
-
-        if($enableSession) {
-            session()->put('locale', $locale);
-        }
-
     }
 
 
     /**
      * Redirect the user to the localized route, if there is any available.
      *
-     * @param $locale
+     * @param     $locale
      * @param int $code
+     *
      * @return RedirectResponse|void
      */
-    private function localizationRedirect($locale, $code = 302) {
+    private function localizationRedirect($locale, $code = 302)
+    {
         $enableRedirect = config('localization.redirect_to_localized_route', true);
         $localQueryParamter = config('localization.locale_query_parameter', 'hl');
 
@@ -113,13 +114,14 @@ class LocalizationHandler
 
         $url = app('localization')->getLocaleUrl($locale);
 
-        if(strtok($url, '?') == request()->url() && !request()->query($localQueryParamter)) {
+        if (strtok($url, '?') == request()->url() && !request()->query($localQueryParamter)) {
             return;
         }
 
         session()->reflash();
 
-        return new RedirectResponse(empty($url) ? '/' : $url, $code, ['Pragma' => 'no-cache', 'Expires' => 0,'Cache-Control' => 'no-store, no-cache, must-revalidate']);
+        return new RedirectResponse(empty($url) ? '/' : $url, $code,
+            ['Pragma' => 'no-cache', 'Expires' => 0, 'Cache-Control' => 'no-store, no-cache, must-revalidate']);
 
     }
 

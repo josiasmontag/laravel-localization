@@ -25,7 +25,10 @@ return [
     // Try to detect user locale via Accept-Language header.
     'detect_via_http_header' => true,
 
-    // Remember the user locale using session.
-    'detect_via_session' => true,
+    // Remember the user locale using a cookie.
+    'remember_via_cookie' => true,
+
+    // Cookie expire time in minutes
+    'cookie_expires' => 20160 // 14 days
 
 ];

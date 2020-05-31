@@ -23,6 +23,7 @@ trait EnvironmentSetUp
     {
 
         $app['config']->set('app.locale', 'en');
+        $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
         $app['config']->set('app.debug', true);
 
         $app['config']->set('localization.locales', [

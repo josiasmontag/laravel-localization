@@ -14,7 +14,7 @@ The Laravel Localization package is built for Laravel 5.5+ and provides:
 
 - [x] Localized routes with language URL prefixes.
 - [x] Domain based localized routes.
-- [x] Middleware to detect user language based on HTTP header and session. 
+- [x] Middleware to detect user language based on HTTP header and cookie. 
 - [x] Redirect the user to the localized version.
 - [x] Possibility to hide the language URL prefix for the default language.
 - [x] Possibility to localize a subset of routes only.
@@ -80,8 +80,11 @@ return [
     // Try to detect user locale via Accept-Language header.
     'detect_via_http_header' => true,
 
-    // Remember the user locale using session.
-    'detect_via_session' => true,
+    // Remember the user locale using a cookie.
+    'remember_via_cookie' => true,
+
+    // Cookie expire time in minutes
+    'cookie_expires' => 20160 // 14 days
 
 ];
 
