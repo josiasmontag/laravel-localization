@@ -71,7 +71,7 @@ class LocalizationHandler
             $response = $next($request);
         }
 
-        if($enableCookie && $locale) {
+        if($enableCookie && $locale && method_exists($response, 'cookie')) {
             $response->cookie('locale', $locale, config('localization.cookie_expires'));
         }
 
