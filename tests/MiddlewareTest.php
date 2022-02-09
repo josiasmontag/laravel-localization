@@ -4,14 +4,12 @@ namespace Lunaweb\Localization\Tests;
 
 
 use Mockery as m;
-use Illuminate\Foundation\Testing\TestCase;
-use Orchestra\Testbench\Concerns\CreatesApplication;
 
 
 class MiddlewareTest extends TestCase
 {
 
-    use CreatesApplication, EnvironmentSetUp;
+
 
 
     public function tearDown(): void

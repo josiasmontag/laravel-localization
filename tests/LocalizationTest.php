@@ -5,13 +5,12 @@ namespace Lunaweb\Localization\Tests;
 
 use Mockery as m;
 use Illuminate\Support\Facades\Route;
-use Orchestra\Testbench\TestCase;
+
 
 
 class LocalizationTest extends TestCase
 {
 
-    use EnvironmentSetUp;
 
 
     public function tearDown(): void

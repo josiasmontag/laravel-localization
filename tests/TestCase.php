@@ -1,22 +1,17 @@
 <?php
-/**
- * (c) Lunaweb Ltd. - Josias Montag
- * Date: 04.08.17
- * Time: 14:26
- */
 
 namespace Lunaweb\Localization\Tests;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Lunaweb\Localization\Facades\Localization as LocalizationFacade;
 use Lunaweb\Localization\Localization;
 use Lunaweb\Localization\LocalizationServiceProvider;
 use Lunaweb\Localization\LocalizedUrlGenerator;
-use Lunaweb\Localization\Facades\Localization as LocalizationFacade;
 use Lunaweb\Localization\Middleware\LocalizationHandler;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 
-trait EnvironmentSetUp
+abstract class TestCase extends Orchestra
 {
 
     protected function getEnvironmentSetUp($app)
@@ -121,5 +116,6 @@ trait EnvironmentSetUp
         app('router')->getRoutes()->refreshActionLookups();
 
     }
+
 
 }
