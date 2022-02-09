@@ -2,7 +2,7 @@
 
 
 <p align="center">
-<a href="https://travis-ci.org/josiasmontag/laravel-localization"><img src="https://travis-ci.org/josiasmontag/laravel-localization.svg" alt="Build Status"></a>
+<a href="https://github.com/josiasmontag/laravel-localization/actions/workflows/run-tests.yml"><img src="https://github.com/josiasmontag/laravel-localization/actions/workflows/run-tests.yml/badge.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/josiasmontag/laravel-localization"><img src="https://poser.pugx.org/josiasmontag/laravel-localization/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/josiasmontag/laravel-localization"><img src="https://poser.pugx.org/josiasmontag/laravel-localization/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/josiasmontag/laravel-localization"><img src="https://poser.pugx.org/josiasmontag/laravel-localization/license.svg" alt="License"></a>
